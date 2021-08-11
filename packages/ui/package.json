@@ -1,0 +1,22 @@
+{
+  "name": "@aryl/ui",
+  "version": "0.0.1",
+  "description": "Aryl - UI-related components",
+  "author": "William Gao <dev@wlgao.com>",
+  "scripts": {
+    "start": "webpack serve",
+    "build": "yarn compile && webpack --env production",
+    "clean": "rm -rf ./dist && rm -rf ./build",
+    "watch": "tsc -b -w --preserveWatchOutput",
+    "compile": "tsc -b"
+  },
+  "dependencies": {
+    "@aryl/core": "^0.0.1"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "^5.3.2",
+    "webpack": "^5.50.0",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^3.11.2"
+  }
+}
