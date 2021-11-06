@@ -11,7 +11,10 @@
     "compile": "tsc -b"
   },
   "dependencies": {
-    "@aryl/core": "^0.0.1"
+    "@aryl/core": "^0.0.1",
+    "@babylonjs/core": "^4.2.0",
+    "@babylonjs/gui": "^4.2.0",
+    "@babylonjs/materials": "^4.2.0"
   },
   "devDependencies": {
     "html-webpack-plugin": "^5.3.2",
