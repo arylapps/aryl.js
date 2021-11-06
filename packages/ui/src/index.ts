@@ -4,10 +4,11 @@ import {
     Color4,
     DirectionalLight,
     Engine,
-    FreeCamera,
     HemisphericLight,
     Mesh,
-    MeshBuilder, Ray, RayHelper, RenderTargetTexture,
+    MeshBuilder,
+    Ray,
+    RayHelper,
     Scene,
     ShadowGenerator,
     StandardMaterial,
@@ -16,9 +17,7 @@ import {
 
 // Side-effects only imports allowing the standard material to be used as default.
 import "@babylonjs/core/Materials/standardMaterial";
-import {
-    GridMaterial,
-} from "@babylonjs/materials";
+import {GridMaterial,} from "@babylonjs/materials";
 
 
 const createScene = (engine: Engine) => {
@@ -43,7 +42,7 @@ const createScene = (engine: Engine) => {
     const groundMat = new StandardMaterial("groundMat", scene);
     groundMat.diffuseColor = Color3.White();
     // groundMat.specularColor = Color3.White();
-    // groundMat.specularPower = 5;
+    groundMat.specularPower = 64;
     ground.material = groundMat;
     ground.receiveShadows = true;
 
@@ -51,7 +50,7 @@ const createScene = (engine: Engine) => {
     // const camera = new FreeCamera("camera1", new Vector3(0, 5, -10), scene);
     const camera = new ArcRotateCamera("camera1", 0, 0.8, 20, Vector3.Zero(), scene);
     camera.lowerBetaLimit = 0.1;
-    camera.upperBetaLimit = (Math.PI / 2) * 0.9;
+    camera.upperBetaLimit = (Math.PI / 2);
     camera.lowerRadiusLimit = 10;
     camera.upperRadiusLimit = 90;
     camera.setTarget(Vector3.Zero());
@@ -66,26 +65,33 @@ const createScene = (engine: Engine) => {
 
     // const light = new PointLight("light", Vector3.Zero(), scene);
     const light = new DirectionalLight("light", new Vector3(0, -1, 0), scene);
-    light.position = new Vector3(12, 15, 5)
+    light.position = new Vector3(0, 15, 0)
     light.diffuse = new Color3(1, 1, 1);
     // light.specular = Color3.Black();
-    light.intensity = 0.8;
+    light.intensity = 0.4;
 
-    const lightSphere = Mesh.CreateSphere("lightSphere", 10, 2, scene);
+    const lightSphere = Mesh.CreateSphere("lightSphere", 10, 0.1, scene);
     lightSphere.position = light.position;
     const lightSphereMat = new StandardMaterial("lightSphereMat", scene);
     lightSphereMat.emissiveColor = new Color3(1, 1, 0);
     lightSphere.material = lightSphereMat;
 
-    const moveLight = (counter: number) => {
-        light.position.x = Math.sin(counter) * 6;
-        light.position.z = Math.cos(counter) * 6;
+    const localMeshOrigin = lightSphere.position.clone();
+    const localMeshDirection = new Vector3(0, -1, 0);
 
-        // target - src
-        light.direction = sphere.position.clone()
-            .subtract(light.position)
-            .normalize()
-        light.direction.y = -1;
+    scene.render();
+    const ray = new Ray(localMeshOrigin, localMeshDirection, 15);
+    const rayHelper = new RayHelper(ray);
+    rayHelper.show(scene);
+    rayHelper.attachToMesh(lightSphere);
+
+    const moveLight = (counter: number) => {
+        light.direction.x = Math.sin(counter) * 0.2;
+        light.direction.z = Math.cos(counter) * 0.2;
+
+        localMeshDirection.x = -light.direction.x;
+        localMeshDirection.y = -1;
+        localMeshDirection.z = -light.direction.z;
     }
 
 
