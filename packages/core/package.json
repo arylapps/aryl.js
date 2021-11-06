@@ -10,5 +10,8 @@
     "build": "tsc -b",
     "clean": "rm -rf ./dist",
     "watch": "tsc -b -w --preserveWatchOutput"
+  },
+  "devDependencies": {
+    "typescript": "^4.4.4"
   }
 }
